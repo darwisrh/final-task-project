@@ -39,16 +39,28 @@ const SignUp = () => {
               <h2>Sign Up</h2>
               <Form>
                 <Form.Group className='mb-4'>
-                  <Form.Control className='control' type='email' placeholder="Email" />
+                  <Form.Control 
+                  className='control' 
+                  type='email' 
+                  placeholder="Email"
+                  />
                 </Form.Group>
                 <Form.Group className='mb-4'>
-                  <Form.Control className='control' type='password' placeholder="Password" />
+                  <Form.Control 
+                  className='control' 
+                  type='password' 
+                  placeholder="Password"
+                  />
                 </Form.Group>
                 <Form.Group className='mb-4'>
-                <Form.Control className='control' type='text' placeholder="Name" />
+                <Form.Control 
+                className='control' 
+                type='text' 
+                placeholder="Name Channel"
+                />
                 </Form.Group>
 
-                <FloatingLabel controlId="floatingTextarea2" label="Comments">
+                <FloatingLabel controlId="floatingTextarea2" label="Description Channel">
                 <Form.Control
                   as="textarea"
                   placeholder="Leave a comment here"

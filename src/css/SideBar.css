@@ -73,6 +73,7 @@
   width: 600px;
   background: rgba(210, 210, 210, 0.25);
   border: 2px solid #BCBCBC;
+  color: white;
 }
 
 .search-wrapper .search:focus {

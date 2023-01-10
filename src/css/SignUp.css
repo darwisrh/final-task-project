@@ -54,7 +54,9 @@
 }
 
 .sign-in:hover {
-  color: rgb(255, 255, 255);
+  box-shadow: 5px 5px 15px #633000;
+  transition: 0.5s;
+  color: white;
 }
 
 .wrapper .left-side p:first-child {
@@ -101,10 +103,17 @@
   background-color: rgba(210, 210, 210, 0.25);
   border: 2px solid #BCBCBC;
   border-radius: 5px;
+  color: white;
+}
+
+.form-cont .control:hover {
+  background-color: rgb(150, 150, 150);
+  transition: 0.5s;
 }
 
 .form-cont .control:focus {
   color: white;
+  background-color: rgba(210, 210, 210, 0.25);
 }
 
 .button {
@@ -117,6 +126,11 @@
   padding: 7px 0;
   border: 1px solid #FF7A00;
   margin-top: 50px;
+}
+
+.button:hover {
+  box-shadow: 5px 5px 15px #633000;
+  transition: 0.5s;
 }
 
 /* Responsivitas */

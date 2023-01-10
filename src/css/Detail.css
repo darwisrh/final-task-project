@@ -1,0 +1,75 @@
+.detail-container {
+  background: #0B0B0B;
+  height: 100%;
+}
+
+.detail-body-wrapper {
+  margin: 30px 40px 0px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.main-detail-video {
+  width: 850px;
+}
+
+.main-detail-video img {
+  width: 100%;
+}
+
+.main-detail-video h2 {
+  font-size: 26px;
+  font-weight: 600;
+  color: white;
+}
+
+.detail-video-head {
+  margin-bottom: 10px;
+}
+
+.detail-body-video {
+  display: flex;
+  align-items: center;
+}
+
+.detail-body-video .view-detail {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.detail-body-video p {
+  color: #555555;
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0 30px 0 0;
+}
+
+.profile-in-detail {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.profile-in-detail p {
+  margin: 0;
+  color: white;
+  font-weight: 600;
+}
+
+.description-detail p {
+  font-size: 18px;
+  color: #555555;
+}
+
+.random-video {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 500px;
+}
+
+.home-card-detail {
+  width: 420px;
+  margin-bottom: 10px;
+}

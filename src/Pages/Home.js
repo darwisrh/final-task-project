@@ -97,7 +97,7 @@ const Home = ({ setOpen, open }) => {
           {
             DataDummy.map(video => (
               <div className="home-card">
-              <Link style={{textDecoration: 'none', color: 'white'}}>
+              <Link to="/detail-video" style={{textDecoration: 'none', color: 'white'}}>
                 <div className="home-card-head">
                   <img src={VideoThumb} alt="videothumbnail" style={{marginBottom: '10px'}}/>
                   <h4>
