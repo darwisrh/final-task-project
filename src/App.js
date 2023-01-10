@@ -6,6 +6,7 @@ import { useState } from "react"
 import SignUp from "./Pages/SignUp"
 import SignIn from "./Pages/SignIn"
 import Home from "./Pages/Home"
+import DetailPage from "./Pages/DetailPage"
 
 function App() {
   // SideBar State
@@ -20,6 +21,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/home" element={<Home setOpen={setOpen} open={open}/>}/>
+        <Route path="/detail-vide" element={<DetailPage setOpen={setOpen} open={open}/>}/>
 
           {/* After Login Routes */}
       </Routes>

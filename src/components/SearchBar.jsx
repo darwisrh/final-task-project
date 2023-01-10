@@ -8,6 +8,7 @@ import '../css/SideBar.css'
 // Icons
 import Menu from '../Images/SideBar/WhiteMenu.png'
 import Video from '../Images/Icons/video.png'
+import Profile from '../Images/Icons/profile.png'
 
 const SearchBar = ({ setOpen, open }) => {
 
@@ -29,6 +30,9 @@ const SearchBar = ({ setOpen, open }) => {
           <Link className='last-side'>
             <img src={Video} alt="video" />
             <p>Add Video</p>
+          </Link>
+          <Link>
+            <img src={Profile} alt="user" className='profile'/>
           </Link>
         </div>
       </div>
