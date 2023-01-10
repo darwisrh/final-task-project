@@ -1,0 +1,9 @@
+.formCont .control {
+  background-color: rgba(210, 210, 210, 0.25);
+  border: 2px solid #BCBCBC;
+  border-radius: 5px;
+}
+
+.formCont .control:focus {
+  color: white;
+}

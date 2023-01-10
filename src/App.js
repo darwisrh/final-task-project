@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+// Libararies
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { useState } from "react"
+
+// Pages
+import SignUp from "./Pages/SignUp"
+import SignIn from "./Pages/SignIn"
+import Home from "./Pages/Home"
 
 function App() {
+  // SideBar State
+  const [open, setOpen] = useState(false)
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <Routes>
+          {/* Unlogin Routes */}
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/home" element={<Home setOpen={setOpen} open={open}/>}/>
+
+          {/* After Login Routes */}
+      </Routes>
+    </Router>
+  )
 }
 
-export default App;
+export default App
