@@ -1,7 +1,11 @@
 // Libararies
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import { useState } from "react"
-import { QueryClient, QueryClientProvider } from "react-query"
+import { Routes, Route } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { API } from "./config/api"
+import { UserContext } from "./context/UserContext"
+import { setAuthToken } from "./config/api"
+import { useContext } from "react"
 
 // Components
 import PrivateRoute from "./components/PrivateRoutes"
@@ -17,15 +21,63 @@ import MyChannel from "./Pages/MyChannel"
 import Description from "./Pages/Description"
 import ContentCreator from "./Pages/ContentCreator"
 
+if (localStorage.token) {
+  setAuthToken(localStorage.token)
+}
+
 function App() {
   // SideBar State
   const [open, setOpen] = useState(false)
 
-  const client = new QueryClient()
+  const navigate = useNavigate()
+
+  const [state, dispatch] = useContext(UserContext)
+  
+  useEffect(() => {
+
+    if (localStorage.token) {
+      setAuthToken(localStorage.token)
+    }
+
+    if (state.isLogin === false) {
+      navigate('/sign-in')
+    } else if (state.user.token) {
+      navigate('/home')
+    }
+
+  }, [state])
+  
+  const checkUser = async () => {
+    try {
+      const response = await API.get('/check-auth')
+
+      if (response.status === 404) {
+        return dispatch({
+          type: 'AUTH_ERROR'
+        })
+      }
+
+      let payload = response.data.data
+      payload.token = localStorage.token
+      
+      dispatch({
+        type: 'LOGIN_SUCCES',
+        payload,
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  console.log(state)
+
+  useEffect(() => {
+    if(localStorage.token) {
+      checkUser()
+    }
+  }, [])
 
   return (
-    <Router>
-      <QueryClientProvider client={client}>
         <Routes>
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
@@ -54,8 +106,6 @@ function App() {
             } />
           </Route>
         </Routes>
-      </QueryClientProvider>
-    </Router>
   )
 }
 

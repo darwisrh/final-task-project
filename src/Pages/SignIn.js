@@ -1,5 +1,9 @@
 // Libraries
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useContext, useState } from 'react'
+import { UserContext } from '../context/UserContext'
+import { API } from '../config/api'
+import { useMutation } from 'react-query'
 
 // CSS External
 import '../css/SignUp.css'
@@ -27,6 +31,52 @@ const h2 = {
 }
 
 const SignUp = () => {
+
+  const navigate = useNavigate()
+  const [state, dispatch] = useContext(UserContext)
+  const [form, setForm] = useState({
+    email: "",
+    password: ""
+  })
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSubmit = useMutation(async (e) => {
+    e.preventDefault()
+    try {
+      const config = {
+        header: {
+          'Content-Type': 'application/json'
+        }
+      }
+
+      const body = JSON.stringify(form)
+      const response = await API.post('/login', body, config)
+
+      // Check
+      if (response?.status === 200) {
+        dispatch({
+          type: 'LOGIN_SUCCES',
+          payload: response.data.data
+        })
+      }
+
+      if (response.data.data.token) {
+        navigate('/home')
+      } else if (!response.data.data.token) {
+        alert('Login Failed')
+      }
+
+    } catch (err) {
+      console.log(err)
+    }
+  })
+
   return (
       <div className='container'>
 
@@ -51,12 +101,24 @@ const SignUp = () => {
           <div className='right-side'>
             <div style={formCont} className='formCont'>
               <h2 style={h2}>Sign In</h2>
-              <Form>
+              <Form onSubmit={(e) => handleSubmit.mutate(e)}>
                 <Form.Group className='mb-4'>
-                  <Form.Control className='control' type='email' placeholder="Email" />
+                  <Form.Control 
+                  className='control' 
+                  type='email' 
+                  placeholder="Email" 
+                  onChange={handleChange}
+                  name="email"
+                  />
                 </Form.Group>
                 <Form.Group className='mb-4'>
-                  <Form.Control className='control' type='password' placeholder="Password" />
+                  <Form.Control 
+                  className='control' 
+                  type='password' 
+                  placeholder="Password" 
+                  onChange={handleChange}
+                  name="password"
+                  />
                 </Form.Group>
                 <button className='button' type='submit'>Sign In</button>
               </Form>

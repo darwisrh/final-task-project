@@ -1,6 +1,7 @@
-import Dropdown from 'react-bootstrap/Dropdown';
-import { Link } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import Dropdown from 'react-bootstrap/Dropdown'
+import { Link } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { useNavigate } from 'react-router-dom'
 
 // Icons
 import Polygon from '../Images/DropDown/Polygon.png'
@@ -67,6 +68,14 @@ const polygon = {
 
 
 function DropDownAll() {
+
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    localStorage.removeItem("token")
+    navigate('/sign-in')
+  }
+
   return (
     <>
       <Dropdown>
@@ -83,7 +92,7 @@ function DropDownAll() {
             </Link>
           </Dropdown.Item>
           <Dropdown.Item style={dropItem2}>
-            <Link style={dropItem2}>
+            <Link style={dropItem2} onClick={handleClick}>
               <img style={img} src={Logout} alt="user" />
               <p style={fonts}>Logout</p>
             </Link>
