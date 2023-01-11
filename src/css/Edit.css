@@ -8,10 +8,16 @@
   margin-bottom: 20px;
 }
 
+.edit-body {
+  display: flex;
+  justify-content: center;
+}
+
 .edit-body-wrapper {
   display: flex;
   justify-content: center;
-  height: 90vh;
+  height: 100vh;
+  margin-top: 70px;
 }
 
 .main-edit-channel {
@@ -48,9 +54,57 @@
   font-weight: 800;
   color: white;
   border-radius: 5px;
+  border: 1px solid #FF7A00;
 }
 
 .save-button:hover {
   box-shadow: 5px 5px 15px #633000;
   transition: 0.5s;
+}
+
+.edit-file {
+  width: 400px;
+}
+
+/* Responsivitas */ 
+@media (max-width: 360px) {
+  .edit-body-wrapper {
+    width: 360px;
+  }
+
+  .edit-form {
+    display: block;
+  }
+
+  .edit-form .form-edit-control-top {
+    margin-bottom: 10px;
+    width: 330px;
+  }
+
+  .main-edit-channel {
+    width: 330px;
+  }
+}
+
+@media (max-width: 400px) {
+  .edit-body-wrapper {
+    width: 340px;
+  }
+
+  .edit-form {
+    display: block;
+  }
+
+  .edit-form .form-edit-control-top {
+    margin-bottom: 10px;
+    width: 320px;
+  }
+
+  .edit-file {
+    width: 320px;
+  }
+
+  .main-edit-channel {
+    width: 320px;
+  }
 }

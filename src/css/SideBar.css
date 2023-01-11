@@ -1,12 +1,12 @@
 .sidebar-container {
   background: #151515;
-  position: absolute;
   display: flex;
   justify-content: start;
   align-items: flex-start;
   height: 100%;
-  padding: 25px 12px;
+  padding: 15px 12px;
   width: 230px;
+  z-index: 2;
 }
 
 .sidebar-wrapper {
@@ -49,12 +49,20 @@
 }
 
 /* Search Bar */
+.first-side {
+  display: flex;
+  align-items: center;
+}
+
 .search-container {
+  padding: 0 30px;
   height: 10vh;
   background: #0B0B0B;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: fixed;
+  z-index: 1;
 }
 
 .search-wrapper {
@@ -107,4 +115,105 @@
   color: #FF7A00;
   font-size: 24px;
   font-weight: 600;
+}
+
+.last-side .search-icon {
+  width: 30px;
+}
+
+/* Responsivitas */
+@media (max-width: 360px) {
+  .search-container {
+    width: 360px;
+  }
+
+  .search-wrapper .middle-side .search {
+    width: 90px;
+    position: relative;
+    right: 20px;
+  }
+
+  .search-wrapper .middle-side {
+    width: 20px;
+  }
+
+  .search-wrapper .last-side img {
+    margin-left: 10px;
+  }
+
+  .search-wrapper .last-side p {
+    display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .search-container {
+    width: 400px;
+  }
+
+  .search-wrapper .middle-side .search {
+    width: 120px;
+    position: relative;
+    right: 40px;
+  }
+
+  .search-wrapper .middle-side {
+    width: 20px;
+  }
+
+  .search-wrapper .last-side img {
+    margin-left: 10px;
+  }
+
+  .search-wrapper .last-side p {
+    display: none;
+  }
+}
+
+@media (max-width: 385px) {
+  .search-container {
+    width: 385px;
+  }
+
+  .search-wrapper .middle-side .search {
+    width: 120px;
+    position: relative;
+    right: 40px;
+  }
+
+  .search-wrapper .middle-side {
+    width: 20px;
+  }
+
+  .search-wrapper .last-side img {
+    margin-left: 10px;
+  }
+
+  .search-wrapper .last-side p {
+    display: none;
+  }
+}
+
+@media (max-width: 340px) {
+  .search-container {
+    width: 340px;
+  }
+
+  .search-wrapper .middle-side .search {
+    width: 90px;
+    position: relative;
+    right: 20px;
+  }
+
+  .search-wrapper .middle-side {
+    width: 20px;
+  }
+
+  .search-wrapper .last-side img {
+    margin-left: 10px;
+  }
+
+  .search-wrapper .last-side p {
+    display: none;
+  }
 }

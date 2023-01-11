@@ -113,7 +113,7 @@ const DetailPage = ({ setOpen, open }) => {
                 22 Agustus 2016
               </p>
             </div>
-            <hr style={{backgroundColor: 'white'}}/>
+            <hr style={{backgroundColor: 'white', height: '4px'}}/>
             <div className='profile-in-detail'>
               <img src={Profile} alt="profile" style={{width: '35px', marginRight: '10px'}}/>
               <p>

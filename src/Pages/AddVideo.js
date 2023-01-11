@@ -8,6 +8,17 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import '../css/Edit.css'
 
 const AddVideo = ({ setOpen, open }) => {
+
+  const widthMin = {
+    width: '1000px',
+    position: 'relative',
+    left: '120px',
+  }
+  
+  const widthMax = {
+    display: 'flex',
+  }
+
   return (
     <div class="edit-container">
       <div className="side-navbar-container">
@@ -17,7 +28,7 @@ const AddVideo = ({ setOpen, open }) => {
         <SearchBar setOpen={setOpen} open={open}/>
       </div>
       <div className="edit-body">
-        <div className="edit-body-wrapper">
+        <div style={open ? widthMax : widthMin} className="edit-body-wrapper">
 
           <div className="main-edit-channel">
             <div className="header-edit">
@@ -34,11 +45,8 @@ const AddVideo = ({ setOpen, open }) => {
               }}
               />
               <Form.Control 
-              className="form-edit-control-top" 
-              type="file" 
-              style={{
-                width: '400px'
-              }}
+              className="form-edit-control-top edit-file" 
+              type="file"
               />
             </Form.Group>
             <Form.Group style={{zIndex: 'inherit'}} className="mb-3" >
@@ -51,11 +59,8 @@ const AddVideo = ({ setOpen, open }) => {
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Control 
-                className="form-edit-control-top" 
-                type="file" 
-                style={{
-                  width: '400px'
-                }}
+                className="form-edit-control-top edit-file" 
+                type="file"
                 />
             </Form.Group>
             <button className="save-button" type="submit">Add</button>

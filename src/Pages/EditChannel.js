@@ -7,6 +7,16 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel'
 // External CSS
 import '../css/Edit.css'
 
+const widthMin = {
+  width: '1000px',
+  position: 'relative',
+  left: '120px',
+}
+
+const widthMax = {
+  display: 'flex',
+}
+
 const EditChannel = ({ setOpen, open }) => {
   return (
     <div class="edit-container">
@@ -17,7 +27,8 @@ const EditChannel = ({ setOpen, open }) => {
         <SearchBar setOpen={setOpen} open={open}/>
       </div>
       <div className="edit-body">
-        <div className="edit-body-wrapper">
+
+        <div style={open ? widthMax : widthMin} className="edit-body-wrapper">
 
           <div className="main-edit-channel">
             <div className="header-edit">
@@ -34,11 +45,8 @@ const EditChannel = ({ setOpen, open }) => {
               }}
               />
               <Form.Control 
-              className="form-edit-control-top" 
+              className="form-edit-control-top edit-file" 
               type="file" 
-              style={{
-                width: '400px'
-              }}
               />
             </Form.Group>
             <Form.Group style={{zIndex: 'inherit'}} className="mb-3" >
@@ -51,11 +59,8 @@ const EditChannel = ({ setOpen, open }) => {
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Control 
-                className="form-edit-control-top" 
-                type="file" 
-                style={{
-                  width: '400px'
-                }}
+                className="form-edit-control-top edit-file" 
+                type="file"
                 />
             </Form.Group>
             <button className="save-button" type="submit">Save</button>

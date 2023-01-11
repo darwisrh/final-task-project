@@ -82,6 +82,15 @@ const DataDummy = [
   },
 ]
 
+const minWidth = {
+  width: '1100px',
+  transition: '0.5s'
+}
+
+const maxWidth = {
+  display: 'flex'
+}
+
 const Home = ({ setOpen, open }) => {
   return (
     <div className="home-container">
@@ -92,7 +101,7 @@ const Home = ({ setOpen, open }) => {
         <SearchBar setOpen={setOpen} open={open}/>
       </div>
       <div className="home-body">
-        <div className="home-body-wrapper">
+        <div style={open ? maxWidth : minWidth} className="home-body-wrapper">
 
           {
             DataDummy.map(video => (

@@ -46,13 +46,13 @@ const SideBar = ({ open, setOpen }) => {
   ]
 
   const goLeft = {
-    position: 'absolute',
+    position: 'fixed',
     left: '-230px',
     transition: '0.5s'
   }
 
   const goRight = {
-    position: 'absolute',
+    position: 'fixed',
     left: '0px',
     transition: '0.5s'
   }
@@ -66,10 +66,10 @@ const SideBar = ({ open, setOpen }) => {
         </div>
         <div className='body-section'>
           <Link to="/home" className="router">
-            <img src={HomeW} alt="icon" />
+            <img src={HomeW} alt="icon"/>
             <div className="name">Home</div>
           </Link>
-          <Link to="/home" className="router">
+          <Link className="router">
             <img src={SubsW} alt="icon" />
             <div className="name" onClick={toggle}>Subscription</div>
           </Link>

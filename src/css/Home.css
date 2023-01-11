@@ -5,8 +5,13 @@
   height: 100%;
 }
 
+.home-body {
+  display: flex;
+  justify-content: end;
+}
+
 .home-body-wrapper {
-  margin: 30px 40px 0;
+  margin: 80px 40px 0;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -49,3 +54,5 @@
 .view-time img {
   margin-right: 10px;
 }
+
+/* Responsivitas */

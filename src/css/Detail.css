@@ -4,7 +4,7 @@
 }
 
 .detail-body-wrapper {
-  margin: 30px 40px 0px;
+  margin: 0px 40px 0px;
   display: flex;
   justify-content: space-between;
 }
@@ -59,7 +59,7 @@
 
 .description-detail p {
   font-size: 18px;
-  color: #555555;
+  color: #ffffff;
 }
 
 .random-video {
@@ -73,3 +73,5 @@
   width: 420px;
   margin-bottom: 10px;
 }
+
+/* Responsivitas */
