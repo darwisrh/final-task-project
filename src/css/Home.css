@@ -2,18 +2,16 @@
 .home-container {
   display: 'flex';
   background: #0B0B0B;
-  height: 100%;
 }
 
 .home-body {
   display: flex;
-  justify-content: end;
+  justify-content: start;
+  height: 100%;
 }
 
 .home-body-wrapper {
   margin: 80px 40px 0;
-  display: flex;
-  justify-content: center;
   flex-wrap: wrap;
 }
 
@@ -28,6 +26,11 @@
 
 .home-card-head img {
   width: 100%;
+  height: 170px;
+}
+
+.home-card-head h4 {
+  font-size: 20px;
 }
 
 .home-card-body {

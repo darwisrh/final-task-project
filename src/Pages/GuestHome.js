@@ -1,42 +1,32 @@
 // Libraries
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useQuery } from "react-query"
 import { API } from "../config/api"
-import { useContext } from "react"
-import { UserContext } from "../context/UserContext"
-
 
 // Components
 import SideBar from "../components/SideBar"
 import SearchBar from "../components/SearchBar"
 
 // Icons
+import VideoThumb from '../Images/novideo.png'
 import View from '../Images/Icons/view.png'
 import Time from '../Images/Icons/time.png'
 
 // External CSS
 import '../css/Home.css'
 
-
-
 const minWidth = {
-  display: 'flex',
-  justifyContent: 'end',
   width: '1100px',
   transition: '0.5s'
 }
 
 const maxWidth = {
-  display: 'flex',
-  justifyContent: 'space-between'
+  display: 'flex'
 }
 
+const GuestHome = ({ setOpen, open }) => {
 
-const Home = ({ setOpen, open }) => {
-
-
-  // Get all aideos from all channels
-  const {data: getAllVideos} = useQuery('videosCache', async () => {
+  const {data: getAllVideos} = useQuery('videosGuestCache', async () => {
     const response = await API.get('/videos')
     return response.data.data
   })
@@ -55,7 +45,7 @@ const Home = ({ setOpen, open }) => {
           {
             getAllVideos?.map(video => (
               <div className="home-card" key={video?.id}>
-              <Link to={`/detail-video/${video?.id}`} style={{textDecoration: 'none', color: 'white'}}>
+              <Link to={`/guest-detail/${video?.id}`} style={{textDecoration: 'none', color: 'white'}}>
                 <div className="home-card-head">
                   <img src={video?.thumbnail} alt="videothumbnail" style={{marginBottom: '10px'}}/>
                   <h4>
@@ -64,11 +54,10 @@ const Home = ({ setOpen, open }) => {
                 </div>
               </Link>
                 <div className="home-card-body">
-                  <Link
-                  style={{
-                    textDecoration: 'none', color: 'white'
-                    }}>
-                    {video?.channel.channelName}
+                  <Link to={`/content-creator/${video?.channel.id}`} style={{textDecoration: 'none'}}>
+                    <p>
+                      {video?.channel.channelName}
+                    </p>
                   </Link>
                   <div className="view-time">
                     <div style={{
@@ -96,4 +85,4 @@ const Home = ({ setOpen, open }) => {
   )
 }
 
-export default Home
+export default GuestHome

@@ -3,14 +3,20 @@
   height: 100%;
 }
 
+.detail-body {
+  position: relative;
+  top: 90px;
+  background-color: #0B0B0B;
+}
+
 .detail-body-wrapper {
-  margin: 0px 40px 0px;
+  margin: 0px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .main-detail-video {
-  width: 850px;
+  width: 750px;
 }
 
 .main-detail-video img {
@@ -25,6 +31,10 @@
 
 .detail-video-head {
   margin-bottom: 10px;
+}
+
+.detail-video-head video {
+  width: 100%;
 }
 
 .detail-body-video {

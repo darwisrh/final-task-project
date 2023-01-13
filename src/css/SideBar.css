@@ -82,6 +82,8 @@
   background: rgba(210, 210, 210, 0.25);
   border: 2px solid #BCBCBC;
   color: white;
+  position: relative;
+  left: 10px;
 }
 
 .search-wrapper .search:focus {

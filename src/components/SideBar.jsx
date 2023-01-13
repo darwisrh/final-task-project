@@ -1,6 +1,8 @@
 // Libraries
-import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useContext, useState } from 'react'
+import { UserContext } from '../context/UserContext'
+import { API } from '../config/api'
 
 // External CSS
 import '../css/SideBar.css'
@@ -14,36 +16,12 @@ import Profile from '../Images/Icons/profile.png'
 
 const SideBar = ({ open, setOpen }) => {
 
+  const navigate = useNavigate()
   const [channel, setOpenCnl] = useState(false)
   const toggle = () => setOpenCnl(!channel)
+  const [state] = useContext(UserContext)
 
-  const User = [
-    {
-      name: 'Angga',
-    },
-    {
-      name: 'Zeke'
-    },
-    {
-      name: 'Name'
-    },
-    {
-      name: 'Jack'
-    }
-  ]
-
-  const MenuItems = [
-    {
-      path: "/home",
-      name: "Home",
-      icon: HomeW
-    },
-    {
-      path: "/home",
-      name: "Subscrtiption",
-      icon: SubsW
-    }
-  ]
+  // Get User by Id
 
   const goLeft = {
     position: 'fixed',
@@ -65,20 +43,20 @@ const SideBar = ({ open, setOpen }) => {
           <img src={Menu} alt="menu" onClick={setOpen}/>
         </div>
         <div className='body-section'>
-          <Link to="/home" className="router">
+          <Link to={state.isLogin ? '/home' : '/guest-home'} className="router">
             <img src={HomeW} alt="icon"/>
             <div className="name">Home</div>
           </Link>
           <Link className="router">
             <img src={SubsW} alt="icon" />
-            <div className="name" onClick={toggle}>Subscription</div>
+            <div className="name" onClick={() => state.isLogin ? toggle() : navigate('/sign-in')}>Subscription</div>
           </Link>
         </div>
         <div className='user-section'>
           <h2>
             Channel
           </h2>
-          {
+          {/* {
             User?.map((user, i) => channel ? (
               <div key={i} style={{
                 display: 'flex',
@@ -94,7 +72,7 @@ const SideBar = ({ open, setOpen }) => {
                 }}>{user.name}</p>
               </div>
             ) : (<div></div>))
-          }
+          } */}
         </div>
       </div>
     </div>

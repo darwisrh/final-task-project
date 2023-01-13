@@ -47,7 +47,7 @@ const SignUp = () => {
       await API.post('/register', body, config)
       navigation('/sign-in')
     } catch (err) {
-      alert('Login Failed')
+      alert('Register Failed')
       console.log(err)
     }
   })

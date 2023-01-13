@@ -12,10 +12,13 @@ import '../css/SideBar.css'
 import Menu from '../Images/SideBar/WhiteMenu.png'
 import Video from '../Images/Icons/video.png'
 import Search from '../Images/Icons/Search.png'
+import { useContext } from 'react'
+import { UserContext } from '../context/UserContext'
 
 const SearchBar = ({ setOpen, open }) => {
 
   const toggle = () => setOpen(!open)
+  const [state] = useContext(UserContext)
 
   return (
     <div className="search-container">
@@ -33,9 +36,9 @@ const SearchBar = ({ setOpen, open }) => {
           </Form.Group>
         </div>
         <div className='last-side'>
-          <Link className='last-side' to="/addvideo">
+          <Link className='last-side' to={state.isLogin ? '/addvideo' : '/sign-in'}>
             <img src={Video} alt="video" />
-            <p>Add Video</p>
+            <p style={{marginRight: '30px'}}>Add Video</p>
           </Link>
           <DropDownAll />
         </div>

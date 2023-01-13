@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom'
 import '../css/Detail.css'
 
 // Icons
+import NoVideo from '../Images/novideo.png'
 import View from '../Images/Icons/view.png'
 import Profile from '../Images/Icons/profile.png'
 
@@ -86,10 +87,10 @@ const DataDummy = [
   },
 ]
 
-const DetailPage = ({ setOpen, open }) => {
-  // Fetch Videos By Id
+const GuestDetail = ({ setOpen, open }) => {
+
   const { id } = useParams()
-  const {data: getVideoById} = useQuery('detailVideoIdCache', async () => {
+  const {data: getVideoById} = useQuery('videoGuestIdCache', async () => {
     const response = await API.get(`/video/${id}`)
     return response.data.data
   })
@@ -127,7 +128,7 @@ const DetailPage = ({ setOpen, open }) => {
             </div>
             <hr style={{backgroundColor: 'white', height: '4px'}}/>
               <div className='profile-in-detail'>
-                <Link className='profile-in-detail' to="/content-creator" style={{textDecoration: 'none'}}>
+                <Link className='profile-in-detail' to="/sign-in" style={{textDecoration: 'none'}}>
                   <img src={Profile} alt="profile" style={{width: '35px', marginRight: '10px'}}/>
                   <p>
                     {getVideoById?.channel.channelName}
@@ -184,4 +185,4 @@ const DetailPage = ({ setOpen, open }) => {
   )
 }
 
-export default DetailPage
+export default GuestDetail

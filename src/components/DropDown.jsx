@@ -1,39 +1,28 @@
 import Dropdown from 'react-bootstrap/Dropdown'
 import { Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import { UserContext } from '../context/UserContext'
+import '../css/DropDown.css'
 
 // Icons
 import Polygon from '../Images/DropDown/Polygon.png'
 import Profile from '../Images/DropDown/ProfileDropD.png'
 import Logout from '../Images/DropDown/Logout.png'
+import SignIn from '../Images/DropDown/SignIn.png'
+import SignUp from '../Images/DropDown/SignUp.png'
 
 const dropDown = {
   width: "200px",
   padding: "20px",
   marginTop: "25px",
   backgroundColor: '#141414',
-  borderRadius: '5px'
+  borderRadius: '10px'
 }
 
 const drop = {
   background: "transparent",
   border: "0px"
-}
-
-const dropItem1 = {
-  marginLeft: "0",
-  color: "black",
-  display: "flex",
-  alignItem: "center",
-  marginBottom: '10px'
-}
-
-const dropItem2 = {
-  marginLeft: "0",
-  color: "black",
-  display: "flex",
-  alignItem: "center"
 }
 
 const fonts = {
@@ -51,13 +40,6 @@ const img = {
   marginRight: "10px"
 }
 
-const dropDiv = {
-  width: "200px",
-  position: "relative",
-  right: "20px",
-  border: "1px solid #A8A8A8"
-}
-
 const polygon = {
   width: '45px',
   height: '40px',
@@ -69,12 +51,14 @@ const polygon = {
 
 function DropDownAll() {
 
-  const navigate = useNavigate()
 
+  const [state, dispatch] = useContext(UserContext)
   const handleClick = () => {
-    localStorage.removeItem("token")
-    navigate('/sign-in')
+    dispatch({
+      type: 'LOGOUT'
+    })
   }
+  
 
   return (
     <>
@@ -84,19 +68,40 @@ function DropDownAll() {
         </Dropdown.Toggle>
 
         <Dropdown.Menu style={dropDown}>
-            <img style={polygon} src={Polygon} />
-          <Dropdown.Item style={dropItem1}>
-            <Link style={dropItem1} to="/my-channel">
-              <img style={img} src={Profile} alt="user" />
-              <p style={fonts}>My Channel</p>
-            </Link>
-          </Dropdown.Item>
-          <Dropdown.Item style={dropItem2}>
-            <Link style={dropItem2} onClick={handleClick}>
-              <img style={img} src={Logout} alt="user" />
-              <p style={fonts}>Logout</p>
-            </Link>
-          </Dropdown.Item>
+            <img style={polygon} src={Polygon} alt="img"/>
+            {
+              state.isLogin ? (
+                <>
+                  <Dropdown.Item className='dropItem1'>
+                    <Link className='dropItem1' to="/my-channel">
+                      <img style={img} src={Profile} alt="user" />
+                      <p style={fonts}>My Channel</p>
+                    </Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item className='dropItem2'>
+                    <Link className='dropItem2' onClick={handleClick}>
+                      <img style={img} src={Logout} alt="user" />
+                      <p style={fonts}>Logout</p>
+                    </Link>
+                  </Dropdown.Item>
+                </>
+              ) : (
+                <>
+                  <Dropdown.Item className='dropItem1'>
+                    <Link className='dropItem1' to="/sign-in">
+                      <img style={img} src={SignIn} alt="user" />
+                      <p style={fonts}>Sign In</p>
+                    </Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item className='dropItem2'>
+                    <Link className='dropItem2' to="/sign-up">
+                      <img style={img} src={SignUp} alt="user" />
+                      <p style={fonts}>Sign Up</p>
+                    </Link>
+                  </Dropdown.Item>
+                </>
+              )
+            }
         </Dropdown.Menu>
       </Dropdown>
     </>

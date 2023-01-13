@@ -1,5 +1,10 @@
 // Libraries
 import { Link } from "react-router-dom"
+import { useQuery, useMutation } from "react-query"
+import { API } from '../config/api'
+import { useContext, useEffect, useState } from "react"
+import { UserContext } from "../context/UserContext"
+import { useParams } from "react-router-dom"
 
 // Components
 import SideBar from "../components/SideBar"
@@ -11,80 +16,18 @@ import '../css/MyChannel.css'
 // Images
 import Banner from '../Images/banner.webp'
 import Profile from '../Images/Icons/profile-100px.png'
-import VideoThumb from '../Images/novideo.png'
 import View from '../Images/Icons/view.png'
 import Time from '../Images/Icons/time.png'
 
-const DataDummy = [
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-]
-
 const MyChannel = ({ setOpen, open }) => {
+
+  // Get Channel By Id
+  const [state] = useContext(UserContext)
+  const {data: getChannel, refetch: refetchChannel} = useQuery('channelCache', async () => {
+    const response = await API.get(`/channel/${state.user.id}`)
+    return response.data.data
+  })
+
   return (
     <div className="my-channel-container">
       <div className="side-navbar-container">
@@ -109,10 +52,10 @@ const MyChannel = ({ setOpen, open }) => {
                     <img src={Profile} alt="profile" />
                     <div className="channel-left-text">
                       <p>
-                        Some User
+                        {getChannel?.channelName}
                       </p>
                       <p>
-                        100k Subscriber
+                        {getChannel?.subscriber} Subscriber
                       </p>
                     </div>
                   </div>
@@ -136,40 +79,42 @@ const MyChannel = ({ setOpen, open }) => {
                   height: '4px'
                 }}/>
                 <div className="my-channel-videos">
+
                 {
-                  DataDummy.map(video => (
-                    <div className="home-card">
-                    <Link to="/detail-video" style={{textDecoration: 'none', color: 'white'}}>
+                  getChannel?.video.map(video => (
+                    <div className="home-card" key={video?.id}>
+                    <Link to={`/detail-video/${video?.id}`} style={{textDecoration: 'none', color: 'white'}}>
                       <div className="home-card-head">
-                        <img src={VideoThumb} alt="videothumbnail" style={{marginBottom: '10px'}}/>
+                        <img src={video?.thumbnail} alt="videothumbnail" style={{marginBottom: '10px'}}/>
                         <h4>
-                          {video.title}
+                          {`${video?.title.slice(0, 23)}...`}
                         </h4>
                       </div>
                     </Link>
                       <div className="home-card-body">
                         <p>
-                          {video.user}
+                          {getChannel?.channelName}
                         </p>
                         <div className="view-time">
                           <div style={{
                             display: 'flex'
                           }}>
                             <img src={View} alt="view" style={{width: '24px', height: '24px'}}/>
-                            <p>{video.view}</p>
+                            <p>{video?.viewCount}</p>
                           </div>
                           <div style={{
                             display: 'flex',
                             alignItems: 'center'
                           }}>
                             <img src={Time} alt="time" style={{width: '18px', height: '18px'}}/>
-                            <p>{video.time}</p>
+                            <p>{video?.formatTime}</p>
                           </div>
                         </div>
                       </div>
                     </div>
                   ))
-              }
+                }
+
                 </div>
                 
               </div>

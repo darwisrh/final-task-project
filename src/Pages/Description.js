@@ -1,5 +1,9 @@
 // Libraries
 import { Link } from "react-router-dom"
+import { useQuery } from "react-query"
+import { API } from '../config/api'
+import { useContext } from "react"
+import { UserContext } from "../context/UserContext"
 
 // Components
 import SideBar from "../components/SideBar"
@@ -16,6 +20,13 @@ import View from '../Images/Icons/view.png'
 import Time from '../Images/Icons/time.png'
 
 const Description = ({ setOpen, open }) => {
+
+  const [state] = useContext(UserContext)
+  const {data: getUserChannel} = useQuery('channelDescCache', async () => {
+    const response = await API.get(`/channel/${state.user.id}`)
+    return response.data.data
+  })
+
   return (
     <div className="my-channel-container">
       <div className="side-navbar-container">
@@ -40,10 +51,10 @@ const Description = ({ setOpen, open }) => {
                     <img src={Profile} alt="profile" />
                     <div className="channel-left-text">
                       <p>
-                        Some User
+                        {getUserChannel?.channelName}
                       </p>
                       <p>
-                        100k Subscriber
+                        {getUserChannel?.subscriber} Subscriber
                       </p>
                     </div>
                   </div>
@@ -72,7 +83,7 @@ const Description = ({ setOpen, open }) => {
                     color: 'white',
                     fontWeight: '400'
                   }}>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatibus, nulla sequi. Itaque cupiditate, ducimus quidem delectus ratione magnam temporibus earum, voluptatum libero ex distinctio id quis repellendus commodi dignissimos incidunt? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor, odit repudiandae! Id deleniti nesciunt ea obcaecati consequuntur, at qui rerum reprehenderit, sunt animi, libero minima. Vitae possimus aliquid rerum iste!
+                    {getUserChannel?.description}
                   </p>
                 </div>
                 

@@ -20,6 +20,8 @@ import AddVideo from "./Pages/AddVideo"
 import MyChannel from "./Pages/MyChannel"
 import Description from "./Pages/Description"
 import ContentCreator from "./Pages/ContentCreator"
+import GuestHome from "./Pages/GuestHome"
+import GuestDetail from "./Pages/GuestDetail"
 
 if (localStorage.token) {
   setAuthToken(localStorage.token)
@@ -40,7 +42,7 @@ function App() {
     }
 
     if (state.isLogin === false) {
-      navigate('/sign-in')
+      navigate('/guest-home')
     } else if (state.user.token) {
       navigate('/home')
     }
@@ -69,8 +71,6 @@ function App() {
     }
   }
 
-  console.log(state)
-
   useEffect(() => {
     if(localStorage.token) {
       checkUser()
@@ -81,12 +81,18 @@ function App() {
         <Routes>
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/guest-home/" element={
+            <GuestHome setOpen={setOpen} open={open}/>
+          }/>
+          <Route path="/guest-detail/:id" element={
+            <GuestDetail setOpen={setOpen} open={open}/>
+          } />
 
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={
               <Home setOpen={setOpen} open={open}/>
             }/>
-            <Route path="/detail-video" element={
+            <Route path="/detail-video/:id" element={
               <DetailPage setOpen={setOpen} open={open}/>
             }/>
             <Route path="/edit-channel" element={
@@ -101,7 +107,7 @@ function App() {
             <Route path="/my-channel/description" element={
               <Description setOpen={setOpen} open={open}/>
             } />
-            <Route path="/content-creator" element={
+            <Route path="/content-creator/:id" element={
               <ContentCreator setOpen={setOpen} open={open}/>
             } />
           </Route>

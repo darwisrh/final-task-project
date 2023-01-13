@@ -19,7 +19,7 @@ const widthMax = {
 
 const EditChannel = ({ setOpen, open }) => {
   return (
-    <div class="edit-container">
+    <div className="edit-container">
       <div className="side-navbar-container">
         <SideBar open={open} setOpen={setOpen}/>
       </div>
