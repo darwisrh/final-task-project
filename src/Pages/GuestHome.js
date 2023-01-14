@@ -8,7 +8,6 @@ import SideBar from "../components/SideBar"
 import SearchBar from "../components/SearchBar"
 
 // Icons
-import VideoThumb from '../Images/novideo.png'
 import View from '../Images/Icons/view.png'
 import Time from '../Images/Icons/time.png'
 
@@ -16,16 +15,22 @@ import Time from '../Images/Icons/time.png'
 import '../css/Home.css'
 
 const minWidth = {
+  display: 'flex',
+  justifyContent: 'start',
   width: '1100px',
-  transition: '0.5s'
+  transition: '0.5s',
+  position: 'relative',
+  left: '280px'
 }
 
 const maxWidth = {
-  display: 'flex'
+  display: 'flex',
+  justifyContent: 'space-between'
 }
 
 const GuestHome = ({ setOpen, open }) => {
 
+  // Untuk mengambil semua video dari setiap channel
   const {data: getAllVideos} = useQuery('videosGuestCache', async () => {
     const response = await API.get('/videos')
     return response.data.data
@@ -54,7 +59,7 @@ const GuestHome = ({ setOpen, open }) => {
                 </div>
               </Link>
                 <div className="home-card-body">
-                  <Link to={`/content-creator/${video?.channel.id}`} style={{textDecoration: 'none'}}>
+                  <Link to={`/sign-in`} style={{textDecoration: 'none'}}>
                     <p>
                       {video?.channel.channelName}
                     </p>

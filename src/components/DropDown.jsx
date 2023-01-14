@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useContext } from 'react'
 import { UserContext } from '../context/UserContext'
+import { confirm } from 'react-confirm-box'
 import '../css/DropDown.css'
 
 // Icons
@@ -49,14 +50,18 @@ const polygon = {
 }
 
 
+
 function DropDownAll() {
 
-
   const [state, dispatch] = useContext(UserContext)
-  const handleClick = () => {
-    dispatch({
-      type: 'LOGOUT'
-    })
+  const onClick = async () => {
+    const result = await confirm("Are you sure?")
+    if (result) {
+      dispatch({
+        type: 'LOGOUT'
+      })
+      return
+    }
   }
   
 
@@ -79,7 +84,7 @@ function DropDownAll() {
                     </Link>
                   </Dropdown.Item>
                   <Dropdown.Item className='dropItem2'>
-                    <Link className='dropItem2' onClick={handleClick}>
+                    <Link className='dropItem2' onClick={onClick}>
                       <img style={img} src={Logout} alt="user" />
                       <p style={fonts}>Logout</p>
                     </Link>

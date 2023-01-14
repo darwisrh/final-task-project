@@ -14,46 +14,64 @@ import '../css/MyChannel.css'
 // Images
 import Banner from '../Images/banner.webp'
 import Profile from '../Images/Icons/profile-100px.png'
-import VideoThumb from '../Images/novideo.png'
 import View from '../Images/Icons/view.png'
 import Time from '../Images/Icons/time.png'
 import { useContext } from "react"
 import { UserContext } from "../context/UserContext"
 
-const ContentCreator = ({ setOpen, open }) => {
 
+                          <button 
+                          style={{
+                            backgroundColor: 'grey',
+                            padding: '10px 20px',
+                            fontSize: '18px',
+                            fontWeight: 600,
+                            color: 'white',
+                            borderRadius: '5px',
+                            border: '1px solid grey',
+                          }}
+                          >
+                            unsubscribe
+                          </button>
+
+const ContentCreator = ({ setOpen, open }) => {
+  // Untuk mengambil id user yang login
   const [state] = useContext(UserContext)
   console.log(state)
 
+  // Mengambil database channel berdasarkan id
   const { id } = useParams()
-  const {data: getChannelById} = useQuery('channelContentByIdCache', async () => {
+  const {data: getChannelById, refetch: channelRefetch} = useQuery('channelContentByIdCache', async () => {
     const response = await API.get(`/channel/${id}`)
     return response.data.data
   })
 
-  const {data: subscribers} = useQuery('subscriberCache', async () => {
-    const response = await API.get(`/subscribes`)
-    return response.data.data
+  // Mengambil data subscription user yang login
+  const {data: subscribeById, refetch: subscribeRefetch} = useQuery('subscribeByIdCache', async () => {
+    const response = await API.get(`/subscribeByOther/${id}`)
+    console.log(response.data.data)
+    if (response.data.data.channel_id !== state?.user.id) {
+      return {}
+    } else if (response.data == 400) {
+      return {}
+    } else {
+      return response.data.data
+    }
   })
-  console.log(subscribers)
+  // const channel = subscribeById?.other_id
+  console.log(subscribeById)
 
-  const subscriber = {
-    channel_id: state?.user.id
-  }
-
+  // Post handle untuk mengirim data ke database
   const handleClick = useMutation(async (e) => {
     try {
       e.preventDefault()
 
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      const response = await API.post(`/subscribe/${id}`)
+      const plusSub = await API.patch(`/plusSubs/${id}`)
+      if (response.status == 200 && plusSub.status == 200) {
+        subscribeRefetch()
+        channelRefetch()
       }
-
-      const body = JSON.stringify(subscriber)
-      const response = await API.post(`/subscribe/${id}`, body, config)
-      alert("Subscribe Success")
     } catch (err) {
       alert("FAILED")
       console.log(err.data)
@@ -93,9 +111,27 @@ const ContentCreator = ({ setOpen, open }) => {
                   </div>
                   <div className="channel-right-side">
                     <Link >
-                      <button onClick={(e) => handleClick.mutate(e)}>
-                        Subscribe
-                      </button>
+                      {
+                        subscribeById?.other_id != id ? (
+                          <button onClick={(e) => handleClick.mutate(e)}>
+                            Subscribe
+                          </button>
+                        ) : (
+                          <button 
+                          style={{
+                            backgroundColor: 'grey',
+                            padding: '10px 20px',
+                            fontSize: '18px',
+                            fontWeight: 600,
+                            color: 'white',
+                            borderRadius: '5px',
+                            border: '1px solid grey',
+                          }}
+                          >
+                            unsubscribe
+                          </button>
+                        )
+                      }
                     </Link>
                   </div>
                 </div>

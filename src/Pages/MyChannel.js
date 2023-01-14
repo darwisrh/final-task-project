@@ -1,10 +1,9 @@
 // Libraries
 import { Link } from "react-router-dom"
-import { useQuery, useMutation } from "react-query"
+import { useQuery } from "react-query"
 import { API } from '../config/api'
-import { useContext, useEffect, useState } from "react"
+import { useContext } from "react"
 import { UserContext } from "../context/UserContext"
-import { useParams } from "react-router-dom"
 
 // Components
 import SideBar from "../components/SideBar"
@@ -23,10 +22,11 @@ const MyChannel = ({ setOpen, open }) => {
 
   // Get Channel By Id
   const [state] = useContext(UserContext)
-  const {data: getChannel, refetch: refetchChannel} = useQuery('channelCache', async () => {
+  const {data: getChannel } = useQuery('channelCache', async () => {
     const response = await API.get(`/channel/${state.user.id}`)
     return response.data.data
   })
+  console.log(getChannel)
 
   return (
     <div className="my-channel-container">

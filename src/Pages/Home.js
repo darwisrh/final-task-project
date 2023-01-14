@@ -1,10 +1,10 @@
 // Libraries
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useQuery } from "react-query"
 import { API } from "../config/api"
+import { useNavigate } from "react-router-dom"
 import { useContext } from "react"
 import { UserContext } from "../context/UserContext"
-
 
 // Components
 import SideBar from "../components/SideBar"
@@ -21,9 +21,11 @@ import '../css/Home.css'
 
 const minWidth = {
   display: 'flex',
-  justifyContent: 'end',
+  justifyContent: 'start',
   width: '1100px',
-  transition: '0.5s'
+  transition: '0.5s',
+  position: 'relative',
+  left: '280px'
 }
 
 const maxWidth = {
@@ -33,13 +35,27 @@ const maxWidth = {
 
 
 const Home = ({ setOpen, open }) => {
+  // React Hook
+  const navigate = useNavigate()
+
+  // Untuk mengambil id channel login
+  const [state] = useContext(UserContext)
 
 
-  // Get all aideos from all channels
+  // Mengambil semua video dari setiap channel
   const {data: getAllVideos} = useQuery('videosCache', async () => {
     const response = await API.get('/videos')
     return response.data.data
   })
+
+  // Kondisi ketika meng-klik channel sendiri dan channel orang lain
+  const handleClick = (channelId) => {
+    if (state?.user.id === channelId) {
+      navigate('/my-channel')
+    } else {
+      navigate(`/content-creator/${channelId}`)
+    }
+  }
 
   return (
     <div className="home-container">
@@ -59,17 +75,20 @@ const Home = ({ setOpen, open }) => {
                 <div className="home-card-head">
                   <img src={video?.thumbnail} alt="videothumbnail" style={{marginBottom: '10px'}}/>
                   <h4>
-                    {video?.title}
+                    {`${video?.title.slice(0, 23)}...`}
                   </h4>
                 </div>
               </Link>
                 <div className="home-card-body">
-                  <Link
+                  <p
+                  onClick={() => handleClick(video?.channel.id)}
                   style={{
-                    textDecoration: 'none', color: 'white'
+                    textDecoration: 'none', 
+                    color: 'white',
+                    cursor: 'pointer'
                     }}>
                     {video?.channel.channelName}
-                  </Link>
+                  </p>
                   <div className="view-time">
                     <div style={{
                       display: 'flex'
