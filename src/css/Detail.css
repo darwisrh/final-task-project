@@ -84,4 +84,66 @@
   margin-bottom: 10px;
 }
 
+/* Comment Section */
+.comment-profile .comment-control {
+  background-color: rgba(210, 210, 210, 0.25);
+  border: 2px solid #BCBCBC;
+  border-radius: 5px;
+  color: white;
+}
+
+.comment-profile .comment-control:hover {
+  background-color: rgb(150, 150, 150);
+  transition: 0.5s;
+}
+
+.comment-profile .comment-control:focus {
+  color: white;
+  background-color: rgba(210, 210, 210, 0.25);
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-section p {
+  font-size: 17px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+.comment-profile .send-button {
+  background-color: #FF7A00;
+  border-radius: 5px;
+  width: 100px;
+  font-weight: 600;
+  font-size: 18px;
+  color: white;
+  padding: 7px 0;
+  border: 1px solid #FF7A00;
+  margin-top: 20px;
+}
+
+.profile-commented {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.profile-commented p {
+  font-size: 17px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+.comments-value p {
+  margin-bottom: 10px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 400;
+}
 /* Responsivitas */

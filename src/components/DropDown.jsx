@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useContext } from 'react'
 import { UserContext } from '../context/UserContext'
-import { confirm } from 'react-confirm-box'
+import Swal from 'sweetalert2'
 import '../css/DropDown.css'
 
 // Icons
@@ -55,16 +55,21 @@ function DropDownAll() {
 
   const [state, dispatch] = useContext(UserContext)
   const onClick = async () => {
-    const result = await confirm("Are you sure?")
-    if (result) {
-      dispatch({
-        type: 'LOGOUT'
-      })
-      return
-    }
+    Swal.fire({
+      title: 'Do you want really want to logout?',
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch({
+          type: 'LOGOUT'
+        })
+      }
+    })
   }
   
-
   return (
     <>
       <Dropdown>

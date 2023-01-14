@@ -1,10 +1,12 @@
 // Libraries
 import { Link } from 'react-router-dom'
 import { API } from '../config/api'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { UserContext } from '../context/UserContext'
+import { Form, FloatingLabel } from 'react-bootstrap'
+import Swal from 'sweetalert2'
 
 // External CSS
 import '../css/Detail.css'
@@ -17,75 +19,6 @@ import Profile from '../Images/Icons/profile.png'
 import SideBar from '../components/SideBar'
 import SearchBar from '../components/SearchBar'
 import Time from '../Images/Icons/time.png'
-
-const DataDummy = [
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-  {
-    title: "Video 1",
-    user: "Mikel User",
-    view: "200k",
-    time: "22 Mei 2003"
-  },
-]
 
 const DetailPage = ({ setOpen, open }) => {
 
@@ -117,6 +50,35 @@ const DetailPage = ({ setOpen, open }) => {
       navigate(`/content-creator/${channelId}`)
     }
   }
+
+  // Handle komentar
+  const [comment, setComment] = useState({
+    comment: ""
+  })
+
+  const handleChange = (e) => {
+    setComment({
+      ...comment,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSubmit = useMutation(async (e) => {
+    e.preventDefault()
+    try {
+      const response = await API.post(`/comment/${state?.user.id}`)
+      if (response.status == 200) {
+        Swal.fire(
+          'Comment Added',
+          'You comment can be seen by anyone else',
+          'success'
+        )
+      }
+      console.log(response)
+    } catch (err) {
+      console.log(err)
+    }
+  })
 
   return (
     <div className="detail-container">
@@ -167,6 +129,55 @@ const DetailPage = ({ setOpen, open }) => {
               <p>
                 {getVideoById?.description}
               </p>
+            </div>
+            <hr style={{backgroundColor: 'white', height: '4px'}}/>
+            <div className='comment-section'>
+              <div className='comment-profile'>
+                <div className='profile-section'>
+                  <img src={Profile} alt="profile" style={{width: '35px', marginRight: '10px'}}/>
+                  <p>
+                    Some User
+                  </p>
+                </div>
+                <div>
+                  <Form onSubmit={(e) => handleSubmit.mutate(e)}>
+                    <FloatingLabel
+                    controlId="floatingTextarea2" 
+                    label="Description Channel">
+                      <Form.Control
+                        as="textarea"
+                        placeholder="Leave a comment here"
+                        style={{ height: '100px' }}
+                        className='comment-control'
+                        onChange={handleChange}
+                        name="comment"
+                      />
+                    </FloatingLabel>
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'end'
+                    }}>
+                      <button className='send-button' type='submit'>Send</button>
+                    </div>
+                  </Form>
+                </div>
+              </div>
+            </div>
+            <hr style={{backgroundColor: 'white', height: '4px'}}/>
+            <div className='comments-container'>
+            <div className='comment-prof-container'>
+                <div className='profile-commented'>
+                  <img src={Profile} alt="profile" style={{width: '35px', marginRight: '10px'}}/>
+                  <p>
+                    Some User
+                  </p>
+                </div>
+                <div className='comments-value'>
+                  <p>
+                    I'm commented in this video
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
