@@ -2,7 +2,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useContext, useState } from 'react'
 import { UserContext } from '../context/UserContext'
-import { API } from '../config/api'
 
 // External CSS
 import '../css/SideBar.css'
@@ -12,7 +11,6 @@ import WaysHub from '../Images/WaysHub.png'
 import HomeW from '../Images/SideBar/HomeWhite.png'
 import SubsW from '../Images/SideBar/SubsWhite.png'
 import Menu from '../Images/SideBar/WhiteMenu.png'
-import Profile from '../Images/Icons/profile.png'
 
 const SideBar = ({ open, setOpen }) => {
 

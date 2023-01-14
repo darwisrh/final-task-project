@@ -19,21 +19,6 @@ import Time from '../Images/Icons/time.png'
 import { useContext } from "react"
 import { UserContext } from "../context/UserContext"
 
-
-                          <button 
-                          style={{
-                            backgroundColor: 'grey',
-                            padding: '10px 20px',
-                            fontSize: '18px',
-                            fontWeight: 600,
-                            color: 'white',
-                            borderRadius: '5px',
-                            border: '1px solid grey',
-                          }}
-                          >
-                            unsubscribe
-                          </button>
-
 const ContentCreator = ({ setOpen, open }) => {
   // Untuk mengambil id user yang login
   const [state] = useContext(UserContext)
@@ -45,36 +30,51 @@ const ContentCreator = ({ setOpen, open }) => {
     const response = await API.get(`/channel/${id}`)
     return response.data.data
   })
+  
 
   // Mengambil data subscription user yang login
-  const {data: subscribeById, refetch: subscribeRefetch} = useQuery('subscribeByIdCache', async () => {
-    const response = await API.get(`/subscribeByOther/${id}`)
-    console.log(response.data.data)
-    if (response.data.data.channel_id !== state?.user.id) {
-      return {}
-    } else if (response.data == 400) {
-      return {}
-    } else {
-      return response.data.data
+  const {data: channelLogin} = useQuery('channelLoginCache', async () => {
+    const response = await API.get(`/channel/${state?.user.id}`)
+    return response.data.data.subscription
+  })
+  console.log(channelLogin)
+
+  let channel = []
+
+  const subsFilter = channelLogin?.filter(subs => {
+    if (subs.other_id == id) {
+      channel.push(subs)
     }
   })
-  // const channel = subscribeById?.other_id
-  console.log(subscribeById)
+  
+  const [ channelId ] = channel
+  console.log(channelId)
 
   // Post handle untuk mengirim data ke database
-  const handleClick = useMutation(async (e) => {
+  const handleSubs = useMutation(async (e) => {
     try {
       e.preventDefault()
 
       const response = await API.post(`/subscribe/${id}`)
       const plusSub = await API.patch(`/plusSubs/${id}`)
-      if (response.status == 200 && plusSub.status == 200) {
-        subscribeRefetch()
-        channelRefetch()
-      }
+      alert("Subs success")
     } catch (err) {
       alert("FAILED")
       console.log(err.data)
+    }
+  })
+
+  const handleUnsub = useMutation(async (e) => {
+    try {
+      e.preventDefault()
+
+
+      const response = await API.delete(`/subscribe`)
+      const plusSub = await API.patch(`/minusSubs/${id}`)
+      alert("Unsub success")
+    } catch (err) {
+      alert("FAILED")
+      console.log(err)
     }
   })
 
@@ -112,11 +112,7 @@ const ContentCreator = ({ setOpen, open }) => {
                   <div className="channel-right-side">
                     <Link >
                       {
-                        subscribeById?.other_id != id ? (
-                          <button onClick={(e) => handleClick.mutate(e)}>
-                            Subscribe
-                          </button>
-                        ) : (
+                        channelId?.other_id ? (
                           <button 
                           style={{
                             backgroundColor: 'grey',
@@ -127,8 +123,13 @@ const ContentCreator = ({ setOpen, open }) => {
                             borderRadius: '5px',
                             border: '1px solid grey',
                           }}
+                          onClick={(e) => handleUnsub.mutate(e)}
                           >
                             unsubscribe
+                          </button>
+                        ) : (
+                          <button onClick={(e) => handleSubs.mutate(e)}>
+                            Subscribe
                           </button>
                         )
                       }
