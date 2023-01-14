@@ -2,7 +2,9 @@
 import { Link } from 'react-router-dom'
 import { API } from '../config/api'
 import { useQuery } from 'react-query'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import { UserContext } from '../context/UserContext'
 
 // External CSS
 import '../css/Detail.css'
@@ -14,7 +16,6 @@ import Profile from '../Images/Icons/profile.png'
 // Components
 import SideBar from '../components/SideBar'
 import SearchBar from '../components/SearchBar'
-import VideoThumb from '../Images/novideo.png'
 import Time from '../Images/Icons/time.png'
 
 const DataDummy = [
@@ -87,12 +88,35 @@ const DataDummy = [
 ]
 
 const DetailPage = ({ setOpen, open }) => {
+
+  const navigate = useNavigate()
+
+  // Mengambil id channel yang login
+  const [state] = useContext(UserContext)
+  console.log(state.user)
+
   // Fetch Videos By Id
   const { id } = useParams()
-  const {data: getVideoById} = useQuery('detailVideoIdCache', async () => {
+  const {data: getVideoById, refetch: videoRefetch} = useQuery('detailVideoIdCache', async () => {
     const response = await API.get(`/video/${id}`)
     return response.data.data
   })
+
+  // Mengambil semua video
+  const {data: getAllVideos} = useQuery('getAllVideoIdCache', async () => {
+    const response = await API.get(`/videos`)
+    return response.data.data
+  })
+  console.log(getAllVideos)
+
+  // Kondisi saat meng-klik channel
+  const handleClick = (channelId) => {
+    if (state?.user.id === channelId) {
+      navigate('/my-channel')
+    } else {
+      navigate(`/content-creator/${channelId}`)
+    }
+  }
 
   return (
     <div className="detail-container">
@@ -127,12 +151,17 @@ const DetailPage = ({ setOpen, open }) => {
             </div>
             <hr style={{backgroundColor: 'white', height: '4px'}}/>
               <div className='profile-in-detail'>
-                <Link className='profile-in-detail' to="/content-creator" style={{textDecoration: 'none'}}>
+                <div 
+                onClick={() => handleClick(getVideoById?.channel.id)} 
+                className='profile-in-detail' style={{
+                  textDecoration: 'none',
+                  cursor: 'pointer'
+                }}>
                   <img src={Profile} alt="profile" style={{width: '35px', marginRight: '10px'}}/>
                   <p>
                     {getVideoById?.channel.channelName}
                   </p>
-                </Link>
+                </div>
               </div>
             <div className='description-detail'>
               <p>
@@ -143,11 +172,17 @@ const DetailPage = ({ setOpen, open }) => {
 
           <div className='random-video'>
           {
-            DataDummy?.map(video => (
+            getAllVideos?.map(video => (
               <div className="home-card-detail" style={{position: 'relative',}}>
-              <Link to="/detail-video" style={{textDecoration: 'none', color: 'white'}}>
+              <Link
+              to={`/detail-video/${video?.id}`}
+              style={{
+                textDecoration: 'none', 
+                color: 'white'
+              }}
+              >
                 <div className="home-card-head">
-                  <img src={VideoThumb} alt="videothumbnail" style={{height: '210px', marginBottom: '5px'}}/>
+                  <img src={video?.thumbnail} alt="videothumbnail" style={{height: '230px', marginBottom: '5px'}}/>
                   <h4>
                     {video?.title}
                   </h4>
@@ -155,21 +190,21 @@ const DetailPage = ({ setOpen, open }) => {
               </Link>
                 <div className="home-card-body">
                   <p>
-                    {video?.user}
+                    {video?.channel.channelName}
                   </p>
                   <div className="view-time">
                     <div style={{
                       display: 'flex'
                     }}>
                       <img src={View} alt="view" style={{width: '24px', height: '24px'}}/>
-                      <p>{video?.view}</p>
+                      <p>{video?.viewCount}</p>
                     </div>
                     <div style={{
                       display: 'flex',
                       alignItems: 'center'
                     }}>
                       <img src={Time} alt="time" style={{width: '18px', height: '18px'}}/>
-                      <p>{video?.time}</p>
+                      <p>{video?.formatTime}</p>
                     </div>
                   </div>
                 </div>

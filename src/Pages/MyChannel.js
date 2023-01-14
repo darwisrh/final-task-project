@@ -26,6 +26,7 @@ const MyChannel = ({ setOpen, open }) => {
     const response = await API.get(`/channel/${state.user.id}`)
     return response.data.data
   })
+  console.log(getChannel)
 
   return (
     <div className="my-channel-container">

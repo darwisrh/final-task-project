@@ -41,7 +41,6 @@ const Home = ({ setOpen, open }) => {
   // Untuk mengambil id channel login
   const [state] = useContext(UserContext)
 
-
   // Mengambil semua video dari setiap channel
   const {data: getAllVideos} = useQuery('videosCache', async () => {
     const response = await API.get('/videos')
@@ -85,7 +84,8 @@ const Home = ({ setOpen, open }) => {
                   style={{
                     textDecoration: 'none', 
                     color: 'white',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    color: '#555555'
                     }}>
                     {video?.channel.channelName}
                   </p>

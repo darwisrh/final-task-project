@@ -33,7 +33,7 @@ const ContentCreator = ({ setOpen, open }) => {
   
 
   // Mengambil data subscription user yang login
-  const {data: channelLogin} = useQuery('channelLoginCache', async () => {
+  const {data: channelLogin, refetch: loginRefetch} = useQuery('channelLoginCache', async () => {
     const response = await API.get(`/channel/${state?.user.id}`)
     return response.data.data.subscription
   })
@@ -57,7 +57,10 @@ const ContentCreator = ({ setOpen, open }) => {
 
       const response = await API.post(`/subscribe/${id}`)
       const plusSub = await API.patch(`/plusSubs/${id}`)
-      alert("Subs success")
+      if (response.status == 200 && plusSub.status == 200) {
+        channelRefetch()
+        loginRefetch()
+      }
     } catch (err) {
       alert("FAILED")
       console.log(err.data)
@@ -71,7 +74,10 @@ const ContentCreator = ({ setOpen, open }) => {
 
       const response = await API.delete(`/subscribe`)
       const plusSub = await API.patch(`/minusSubs/${id}`)
-      alert("Unsub success")
+      if (response.status == 200 && plusSub.status == 200) {
+        channelRefetch()
+        loginRefetch()
+      }
     } catch (err) {
       alert("FAILED")
       console.log(err)
@@ -145,7 +151,7 @@ const ContentCreator = ({ setOpen, open }) => {
                 {
                   getChannelById?.video.map(video => (
                     <div className="home-card" key={video?.id}>
-                    <Link to="/detail-video" style={{textDecoration: 'none', color: 'white'}}>
+                    <Link to={`/detail-video/${video?.id}`} style={{textDecoration: 'none', color: 'white'}}>
                       <div className="home-card-head">
                         <img src={video?.thumbnail} alt="videothumbnail" style={{marginBottom: '10px'}}/>
                         <h4>

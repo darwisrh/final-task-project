@@ -54,12 +54,12 @@ const GuestHome = ({ setOpen, open }) => {
                 <div className="home-card-head">
                   <img src={video?.thumbnail} alt="videothumbnail" style={{marginBottom: '10px'}}/>
                   <h4>
-                    {video?.title}
+                    {`${video?.title.slice(0, 23)}...`}
                   </h4>
                 </div>
               </Link>
                 <div className="home-card-body">
-                  <Link to={`/sign-in`} style={{textDecoration: 'none'}}>
+                  <Link to={`/sign-in`} style={{textDecoration: 'none', color: '#555555'}}>
                     <p>
                       {video?.channel.channelName}
                     </p>
