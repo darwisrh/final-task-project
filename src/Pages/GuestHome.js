@@ -39,6 +39,16 @@ const GuestHome = ({ setOpen, open }) => {
     return response.data.data
   })
 
+  // Function untuk meng-update view counter
+  const handleViewCounter = async (videoId) => {
+    try {
+      await API.patch(`/UpdateViews/${videoId}`)
+    } catch (err) {
+      alert("Error")
+      console.log(err)
+    }
+  }
+
   return (
     <div className="home-container">
       <div className="side-navbar-container">
@@ -53,7 +63,13 @@ const GuestHome = ({ setOpen, open }) => {
           {
             getAllVideos?.map(video => (
               <div className="home-card" key={video?.id}>
-              <Link to={`/guest-detail/${video?.id}`} style={{textDecoration: 'none', color: 'white'}}>
+              <Link 
+              onClick={() => handleViewCounter(video?.id)}
+              to={`/guest-detail/${video?.id}`} 
+              style={{
+              textDecoration: 'none', 
+              color: 'white'
+              }}>
                 <div className="home-card-head">
                   <img src={video?.thumbnail} alt="videothumbnail" style={{marginBottom: '10px'}}/>
                   <h4>
