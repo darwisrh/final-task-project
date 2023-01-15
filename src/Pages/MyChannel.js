@@ -26,7 +26,12 @@ const MyChannel = ({ setOpen, open }) => {
     const response = await API.get(`/channel/${state.user.id}`)
     return response.data.data
   })
-  console.log(getChannel)
+  
+  // find Comments
+  const {data: getComments} = useQuery('commentCache', async () => {
+    const response = await API.get(`/comments`)
+    return response.data.data
+  })
 
   return (
     <div className="my-channel-container">
@@ -49,7 +54,19 @@ const MyChannel = ({ setOpen, open }) => {
                 
                 <div className="my-channel-body-header">
                   <div className="channel-left-side">
-                    <img src={Profile} alt="profile" />
+                    {
+                      getChannel?.photo ? (
+                        <img src={getChannel?.photo} alt="profile" style={{
+                          width: '100px',
+                          height: '100px'
+                        }}/>
+                      ) : (
+                        <img src={Profile} alt="profile" style={{
+                          width: '100px',
+                          height: '100px'
+                        }}/>
+                      )
+                    }
                     <div className="channel-left-text">
                       <p>
                         {getChannel?.channelName}

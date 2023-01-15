@@ -44,6 +44,11 @@
   font-weight: 400;
 }
 
+.router:hover {
+  color: #555555;
+  transition: 0.5s;
+}
+
 .router img {
   margin-right: 15px;
 }

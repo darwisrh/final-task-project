@@ -25,7 +25,10 @@ const minWidth = {
 
 const maxWidth = {
   display: 'flex',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
+  position: 'relative',
+  left: '50px',
+  transition: '0.5s',
 }
 
 const GuestHome = ({ setOpen, open }) => {

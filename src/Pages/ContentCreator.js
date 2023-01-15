@@ -22,7 +22,6 @@ import { UserContext } from "../context/UserContext"
 const ContentCreator = ({ setOpen, open }) => {
   // Untuk mengambil id user yang login
   const [state] = useContext(UserContext)
-  console.log(state)
 
   // Mengambil database channel berdasarkan id
   const { id } = useParams()
@@ -37,18 +36,16 @@ const ContentCreator = ({ setOpen, open }) => {
     const response = await API.get(`/channel/${state?.user.id}`)
     return response.data.data.subscription
   })
-  console.log(channelLogin)
 
   let channel = []
 
-  const subsFilter = channelLogin?.filter(subs => {
+    channelLogin?.filter(subs => {
     if (subs.other_id == id) {
       channel.push(subs)
     }
   })
   
   const [ channelId ] = channel
-  console.log(channelId)
 
   // Post handle untuk mengirim data ke database
   const handleSubs = useMutation(async (e) => {

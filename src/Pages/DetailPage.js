@@ -23,14 +23,32 @@ import Time from '../Images/Icons/time.png'
 const DetailPage = ({ setOpen, open }) => {
 
   const navigate = useNavigate()
+  const { id } = useParams()
+
+  // Mengambil data komentar
+  const {data: getAllComments, refetch: refetchComment} = useQuery('getAllComments', async () => {
+    const response = await API.get(`/comments`)
+    return response.data.data
+  })
+
+  let allComments = []
+  getAllComments?.filter(com => {
+    if (com?.video_id == id) {
+      allComments.push(com)
+    }
+  })
 
   // Mengambil id channel yang login
   const [state] = useContext(UserContext)
-  console.log(state.user)
+
+  // Mengambil data login
+  const {data: getLoginChannel} = useQuery('getLoginChannelIdCache', async () => {
+    const response = await API.get(`/channel/${state?.user.id}`)
+    return response.data.data
+  })
 
   // Fetch Videos By Id
-  const { id } = useParams()
-  const {data: getVideoById, refetch: videoRefetch} = useQuery('detailVideoIdCache', async () => {
+  const {data: getVideoById} = useQuery('detailVideoIdCache', async () => {
     const response = await API.get(`/video/${id}`)
     return response.data.data
   })
@@ -40,7 +58,6 @@ const DetailPage = ({ setOpen, open }) => {
     const response = await API.get(`/videos`)
     return response.data.data
   })
-  console.log(getAllVideos)
 
   // Kondisi saat meng-klik channel
   const handleClick = (channelId) => {
@@ -53,7 +70,7 @@ const DetailPage = ({ setOpen, open }) => {
 
   // Handle komentar
   const [comment, setComment] = useState({
-    comment: ""
+    comment: "",
   })
 
   const handleChange = (e) => {
@@ -66,7 +83,9 @@ const DetailPage = ({ setOpen, open }) => {
   const handleSubmit = useMutation(async (e) => {
     e.preventDefault()
     try {
-      const response = await API.post(`/comment/${state?.user.id}`)
+      const formData = new FormData()
+      formData.append("comment", comment.comment)
+      const response = await API.post(`/comment/${getVideoById?.id}`, formData)
       if (response.status == 200) {
         Swal.fire(
           'Comment Added',
@@ -74,9 +93,12 @@ const DetailPage = ({ setOpen, open }) => {
           'success'
         )
       }
-      console.log(response)
+      if (response.status == 200) {
+        refetchComment()
+      }
     } catch (err) {
       console.log(err)
+      alert("Comment Failed")
     }
   })
 
@@ -119,7 +141,27 @@ const DetailPage = ({ setOpen, open }) => {
                   textDecoration: 'none',
                   cursor: 'pointer'
                 }}>
-                  <img src={Profile} alt="profile" style={{width: '35px', marginRight: '10px'}}/>
+                  {
+                    getVideoById?.channel.photo ? (
+                      <img 
+                      src={getVideoById?.channel.photo}
+                      alt="profile" 
+                      style={{
+                        width: '35px',
+                        height: '35px', 
+                        marginRight: '10px'
+                      }}/>
+                    ) : (
+                      <img 
+                      src={Profile} 
+                      alt="profile" 
+                      style={{
+                        width: '35px',
+                        height: '35px', 
+                        marginRight: '10px'
+                      }}/>
+                    )
+                  }
                   <p>
                     {getVideoById?.channel.channelName}
                   </p>
@@ -134,9 +176,29 @@ const DetailPage = ({ setOpen, open }) => {
             <div className='comment-section'>
               <div className='comment-profile'>
                 <div className='profile-section'>
-                  <img src={Profile} alt="profile" style={{width: '35px', marginRight: '10px'}}/>
+                {
+                    getLoginChannel?.photo ? (
+                      <img
+                      src={getLoginChannel?.photo}
+                      alt="profile" 
+                      style={{
+                        width: '35px',
+                        height: '35px', 
+                        marginRight: '10px'
+                      }}/>
+                    ) : (
+                      <img 
+                      src={Profile} 
+                      alt="profile" 
+                      style={{
+                        width: '35px',
+                        height: '35px', 
+                        marginRight: '10px'
+                      }}/>
+                    )
+                  }
                   <p>
-                    Some User
+                    {getLoginChannel?.channelName}
                   </p>
                 </div>
                 <div>
@@ -165,19 +227,47 @@ const DetailPage = ({ setOpen, open }) => {
             </div>
             <hr style={{backgroundColor: 'white', height: '4px'}}/>
             <div className='comments-container'>
-            <div className='comment-prof-container'>
-                <div className='profile-commented'>
-                  <img src={Profile} alt="profile" style={{width: '35px', marginRight: '10px'}}/>
-                  <p>
-                    Some User
-                  </p>
+
+            {
+              allComments?.map(comment => (
+                <div className='comment-prof-container' style={{
+                  marginBottom: '40px'
+                }}>
+                  <div className='profile-commented'>
+                  {
+                    comment?.channel.photo ? (
+                      <img
+                      src={comment?.channel.photo}
+                      alt="profile" 
+                      style={{
+                        width: '35px',
+                        height: '35px', 
+                        marginRight: '10px'
+                      }}/>
+                    ) : (
+                      <img 
+                      src={Profile} 
+                      alt="profile" 
+                      style={{
+                        width: '35px',
+                        height: '35px', 
+                        marginRight: '10px'
+                      }}/>
+                    )
+                  }
+                    <p>
+                      {comment?.channel.channelName}
+                    </p>
+                  </div>
+                  <div className='comments-value'>
+                    <p>
+                      {comment?.comment}
+                    </p>
+                  </div>
                 </div>
-                <div className='comments-value'>
-                  <p>
-                    I'm commented in this video
-                  </p>
-                </div>
-              </div>
+              ))
+            }
+
             </div>
           </div>
 

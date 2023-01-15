@@ -1,11 +1,13 @@
-// Components
-import SideBar from "../components/SideBar"
-import SearchBar from "../components/SearchBar"
-import Form from 'react-bootstrap/Form'
+// Libraries
 import { useMutation } from "react-query"
 import { API } from '../config/api'
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import Form from 'react-bootstrap/Form'
+
+// Components
+import SideBar from "../components/SideBar"
+import SearchBar from "../components/SearchBar"
 
 // External CSS
 import '../css/Edit.css'

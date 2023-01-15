@@ -3,6 +3,7 @@ import { API } from '../config/api'
 import { useContext, useState } from 'react'
 import { UserContext } from '../context/UserContext'
 import { useMutation } from 'react-query'
+import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 
 // Components
@@ -39,12 +40,12 @@ const EditChannel = ({ setOpen, open }) => {
   })
 
   const handleChange = (e) => {
-    if (e.target.name === "thumbnail") {
+    if (e.target.name == "thumbnail") {
       setForm({
         ...form, 
         [e.target.name]: e.target.files[0]
       })
-    } else if (e.target.name === "photo") {
+    } else if (e.target.name == "photo") {
       setForm({
         ...form,
         [e.target.name]: e.target.files[0]
@@ -56,8 +57,6 @@ const EditChannel = ({ setOpen, open }) => {
       })
     }
   }
-  
-  console.log(form)
 
   // function untuk meng-update channel
   const handleUpdate = useMutation(async (e) => {
@@ -72,8 +71,14 @@ const EditChannel = ({ setOpen, open }) => {
       formData.append("photo", form.photo)
 
       const response = await API.patch(`/channel/${state?.user.id}`, formData)
-      alert("Update Succes")
-      console.log(response)
+      if (response.status == 200) {
+        Swal.fire(
+          'Change Saved',
+          'Update Success',
+          'success'
+        )
+      }
+      console.log(response.data)
     } catch (err) {
       alert("Update Failed")
       console.log(err)

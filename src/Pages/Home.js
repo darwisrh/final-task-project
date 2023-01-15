@@ -30,7 +30,10 @@ const minWidth = {
 
 const maxWidth = {
   display: 'flex',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
+  position: 'relative',
+  left: '50px',
+  transition: '0.5s',
 }
 
 
@@ -56,6 +59,16 @@ const Home = ({ setOpen, open }) => {
     }
   }
 
+  // Function untuk meng-update view counter
+  const handleViewCounter = async (videoId) => {
+    try {
+      await API.patch(`/UpdateViews/${videoId}`)
+    } catch (err) {
+      alert("Error")
+      console.log(err)
+    }
+  }
+
   return (
     <div className="home-container">
       <div className="side-navbar-container">
@@ -70,7 +83,13 @@ const Home = ({ setOpen, open }) => {
           {
             getAllVideos?.map(video => (
               <div className="home-card" key={video?.id}>
-              <Link to={`/detail-video/${video?.id}`} style={{textDecoration: 'none', color: 'white'}}>
+              <Link 
+              onClick={() => handleViewCounter(video?.id)}
+              to={`/detail-video/${video?.id}`}
+              style={{
+                textDecoration: 'none', 
+                color: 'white'
+              }}>
                 <div className="home-card-head">
                   <img src={video?.thumbnail} alt="videothumbnail" style={{marginBottom: '10px'}}/>
                   <h4>

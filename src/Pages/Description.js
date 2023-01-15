@@ -15,9 +15,6 @@ import '../css/MyChannel.css'
 // Images
 import Banner from '../Images/banner.webp'
 import Profile from '../Images/Icons/profile-100px.png'
-import VideoThumb from '../Images/novideo.png'
-import View from '../Images/Icons/view.png'
-import Time from '../Images/Icons/time.png'
 
 const Description = ({ setOpen, open }) => {
 
@@ -48,7 +45,21 @@ const Description = ({ setOpen, open }) => {
                 
                 <div className="my-channel-body-header">
                   <div className="channel-left-side">
-                    <img src={Profile} alt="profile" />
+
+                  {
+                      getUserChannel?.photo ? (
+                        <img src={getUserChannel?.photo} alt="profile" style={{
+                          width: '100px',
+                          height: '100px'
+                        }}/>
+                      ) : (
+                        <img src={Profile} alt="profile" style={{
+                          width: '100px',
+                          height: '100px'
+                        }}/>
+                      )
+                    }
+
                     <div className="channel-left-text">
                       <p>
                         {getUserChannel?.channelName}
