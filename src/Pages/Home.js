@@ -30,9 +30,9 @@ const minWidth = {
 
 const maxWidth = {
   display: 'flex',
-  justifyContent: 'space-between',
+  justifyContent: 'start',
   position: 'relative',
-  left: '50px',
+  left: '30px',
   transition: '0.5s',
 }
 
