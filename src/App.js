@@ -6,6 +6,7 @@ import { API } from "./config/api"
 import { UserContext } from "./context/UserContext"
 import { setAuthToken } from "./config/api"
 import { useContext } from "react"
+import { useQuery } from "react-query"
 
 // Components
 import PrivateRoute from "./components/PrivateRoutes"
@@ -23,16 +24,26 @@ import ContentCreator from "./Pages/ContentCreator"
 import GuestHome from "./Pages/GuestHome"
 import GuestDetail from "./Pages/GuestDetail"
 
+// Latihan
+import Latihan from "./latihan/LearnUseContext"
+
+
 if (localStorage.token) {
   setAuthToken(localStorage.token)
 }
 
 function App() {
+
+  //  Mengambil data subscription
+  const {data: subscription, refetch: subsRefetch} = useQuery('subscriptionChannelId', async () => {
+    const response = await API.get(`/channel/${state?.user.id}`)
+    return response.data.data.subscription
+  })
+
   // SideBar State
   const [open, setOpen] = useState(false)
 
   const navigate = useNavigate()
-
   const [state, dispatch] = useContext(UserContext)
   
   useEffect(() => {
@@ -79,6 +90,7 @@ function App() {
 
   return (
         <Routes>
+          <Route path="/" element={<Latihan />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/guest-home/" element={
@@ -90,7 +102,7 @@ function App() {
 
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={
-              <Home setOpen={setOpen} open={open}/>
+              <Home setOpen={setOpen} open={open} subs={subscription}/>
             }/>
             <Route path="/detail-video/:id" element={
               <DetailPage setOpen={setOpen} open={open}/>
@@ -108,7 +120,7 @@ function App() {
               <Description setOpen={setOpen} open={open}/>
             } />
             <Route path="/content-creator/:id" element={
-              <ContentCreator setOpen={setOpen} open={open}/>
+              <ContentCreator setOpen={setOpen} open={open} subs={subscription} refetch={subsRefetch}/>
             } />
           </Route>
         </Routes>

@@ -19,7 +19,7 @@ import Time from '../Images/Icons/time.png'
 import { useContext } from "react"
 import { UserContext } from "../context/UserContext"
 
-const ContentCreator = ({ setOpen, open }) => {
+const ContentCreator = ({ setOpen, open, subs, refetch }) => {
   // Untuk mengambil id user yang login
   const [state] = useContext(UserContext)
 
@@ -39,12 +39,12 @@ const ContentCreator = ({ setOpen, open }) => {
 
   let channel = []
 
-    channelLogin?.filter(subs => {
+  channelLogin?.filter(subs => {
     if (subs.other_id == id) {
       channel.push(subs)
     }
   })
-  
+
   const [ channelId ] = channel
 
   // Post handle untuk mengirim data ke database
@@ -57,6 +57,7 @@ const ContentCreator = ({ setOpen, open }) => {
       if (response.status == 200 && plusSub.status == 200) {
         channelRefetch()
         loginRefetch()
+        refetch()
       }
     } catch (err) {
       alert("FAILED")
@@ -74,6 +75,7 @@ const ContentCreator = ({ setOpen, open }) => {
       if (response.status == 200 && plusSub.status == 200) {
         channelRefetch()
         loginRefetch()
+        refetch()
       }
     } catch (err) {
       alert("FAILED")
@@ -84,7 +86,7 @@ const ContentCreator = ({ setOpen, open }) => {
   return (
     <div className="my-channel-container">
       <div className="side-navbar-container">
-        <SideBar open={open} setOpen={setOpen}/>
+        <SideBar open={open} setOpen={setOpen} subs={subs}/>
       </div>
       <div className='navbar-container'>
         <SearchBar setOpen={setOpen} open={open}/>

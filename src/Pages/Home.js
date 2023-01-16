@@ -17,8 +17,6 @@ import Time from '../Images/Icons/time.png'
 // External CSS
 import '../css/Home.css'
 
-
-
 const minWidth = {
   display: 'flex',
   justifyContent: 'start',
@@ -35,7 +33,6 @@ const maxWidth = {
   left: '30px',
   transition: '0.5s',
 }
-
 
 const Home = ({ setOpen, open }) => {
   // React Hook
