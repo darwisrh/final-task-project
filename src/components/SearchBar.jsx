@@ -14,7 +14,7 @@ import Video from '../Images/Icons/video.png'
 import { useContext } from 'react'
 import { UserContext } from '../context/UserContext'
 
-const SearchBar = ({ setOpen, open }) => {
+const SearchBar = ({ setOpen, open, setSearch }) => {
 
   const toggle = () => setOpen(!open)
   const [state] = useContext(UserContext)
@@ -31,6 +31,8 @@ const SearchBar = ({ setOpen, open }) => {
             className="search" 
             type="text" 
             placeholder="Search"
+            onChange={(e) => setSearch(e.target.value)}
+            name="search"
             />
           </Form.Group>
         </div>

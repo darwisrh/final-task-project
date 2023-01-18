@@ -32,7 +32,7 @@ const maxWidth = {
   transition: '0.5s',
 }
 
-const GuestHome = ({ setOpen, open }) => {
+const GuestHome = ({ setOpen, open, setSearch, search }) => {
 
   // Untuk mengambil semua video dari setiap channel
   const {data: getAllVideos, isFetching} = useQuery('videosGuestCache', async () => {
@@ -74,13 +74,19 @@ const GuestHome = ({ setOpen, open }) => {
         <SideBar open={open} setOpen={setOpen}/>
       </div>
       <div className='navbar-container'>
-        <SearchBar setOpen={setOpen} open={open}/>
+        <SearchBar setOpen={setOpen} open={open} setSearch={setSearch}/>
       </div>
       <div className="home-body">
         <div style={open ? maxWidth : minWidth} className="home-body-wrapper">
 
           {
-            getAllVideos?.map(video => (
+            getAllVideos?.filter(video => {
+              if (search == "") {
+                return video
+              } else if (video.title.toLowerCase().includes(search?.toLowerCase())) {
+                return video
+              }
+            }).map(video => (
               <div className="home-card" key={video?.id}>
               <Link 
               onClick={() => handleViewCounter(video?.id)}

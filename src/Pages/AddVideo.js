@@ -5,6 +5,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import Form from 'react-bootstrap/Form'
 import { ThreeDots } from "react-loader-spinner"
+import Swal from "sweetalert2"
 
 // Components
 import SideBar from "../components/SideBar"
@@ -55,8 +56,16 @@ const AddVideo = ({ setOpen, open }) => {
       formData.append("description", form.description)
       formData.append("video", form.video)
 
-      await API.post('/video', formData)
-      navigate('/my-channel')
+      if (form.title != "" && form.thumbnail != "" && form.description != "" && form.video != "") {
+        await API.post('/video', formData)
+        navigate('/my-channel')
+      } else {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Isi semua data',
+        })
+      }
+
     } catch (err) {
       console.log(err.response.data)
       alert("Upload failed")

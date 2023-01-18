@@ -31,6 +31,9 @@ if (localStorage.token) {
 
 function App() {
 
+    // Search Fitur
+    const [search, setSearch] = useState()
+
   //  Mengambil data subscription
   const {data: subscription, refetch: subsRefetch} = useQuery('subscriptionChannelId', async () => {
     const response = await API.get(`/channel/${state?.user.id}`)
@@ -89,7 +92,7 @@ function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/guest-home/" element={
-            <GuestHome setOpen={setOpen} open={open}/>
+            <GuestHome setOpen={setOpen} open={open} setSearch={setSearch} search={search}/>
           }/>
           <Route path="/guest-detail/:id" element={
             <GuestDetail setOpen={setOpen} open={open}/>
@@ -97,7 +100,7 @@ function App() {
 
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={
-              <Home setOpen={setOpen} open={open} subs={subscription} refetch={subsRefetch}/>
+              <Home setOpen={setOpen} open={open} subs={subscription} refetch={subsRefetch} setSearch={setSearch} search={search}/>
             }/>
             <Route path="/detail-video/:id" element={
               <DetailPage setOpen={setOpen} open={open} subs={subscription} refetch={subsRefetch}/>
