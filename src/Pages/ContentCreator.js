@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { useParams } from "react-router-dom"
 import { API } from "../config/api"
 import { useMutation, useQuery } from "react-query"
+import { CirclesWithBar } from "react-loader-spinner"
 
 // Components
 import SideBar from "../components/SideBar"
@@ -25,12 +26,11 @@ const ContentCreator = ({ setOpen, open, subs, refetch }) => {
 
   // Mengambil database channel berdasarkan id
   const { id } = useParams()
-  const {data: getChannelById, refetch: channelRefetch} = useQuery('channelContentByIdCache', async () => {
+  const {data: getChannelById, refetch: channelRefetch, isFetching} = useQuery('channelContentByIdCache', async () => {
     const response = await API.get(`/channel/${id}`)
     return response.data.data
   })
   
-
   // Mengambil data subscription user yang login
   const {data: channelLogin, refetch: loginRefetch} = useQuery('channelLoginCache', async () => {
     const response = await API.get(`/channel/${state?.user.id}`)
@@ -82,6 +82,24 @@ const ContentCreator = ({ setOpen, open, subs, refetch }) => {
       console.log(err)
     }
   })
+
+  if (isFetching) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh'
+      }}>
+        <CirclesWithBar
+        type="Puff"
+        color="#FF7A00"
+        height={100}
+        width={100}
+        />
+      </div>
+    )
+  }
 
   return (
     <div className="my-channel-container">

@@ -2,6 +2,7 @@
 import { Link } from "react-router-dom"
 import { useQuery } from "react-query"
 import { API } from "../config/api"
+import { CirclesWithBar } from "react-loader-spinner"
 
 // Components
 import SideBar from "../components/SideBar"
@@ -34,7 +35,7 @@ const maxWidth = {
 const GuestHome = ({ setOpen, open }) => {
 
   // Untuk mengambil semua video dari setiap channel
-  const {data: getAllVideos} = useQuery('videosGuestCache', async () => {
+  const {data: getAllVideos, isFetching} = useQuery('videosGuestCache', async () => {
     const response = await API.get('/videos')
     return response.data.data
   })
@@ -47,6 +48,24 @@ const GuestHome = ({ setOpen, open }) => {
       alert("Error")
       console.log(err)
     }
+  }
+
+  if (isFetching) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh'
+      }}>
+        <CirclesWithBar
+        type="Puff"
+        color="#FF7A00"
+        height={100}
+        width={100}
+        />
+      </div>
+    )
   }
 
   return (

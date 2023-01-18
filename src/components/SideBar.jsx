@@ -2,8 +2,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useContext, useState } from 'react'
 import { UserContext } from '../context/UserContext'
-import { API } from '../config/api'
-import { useQuery } from 'react-query'
 
 // External CSS
 import '../css/SideBar.css'
@@ -14,7 +12,6 @@ import HomeW from '../Images/SideBar/HomeWhite.png'
 import SubsW from '../Images/SideBar/SubsWhite.png'
 import Menu from '../Images/SideBar/WhiteMenu.png'
 import Profile from '../Images/Icons/profile.png'
-import { useEffect } from 'react'
 
 const goLeft = {
   position: 'fixed',
@@ -34,8 +31,6 @@ const SideBar = ({ open, setOpen, subs }) => {
   const [channel, setOpenCnl] = useState(false)
   const toggle = () => setOpenCnl(!channel)
   const [state] = useContext(UserContext)
-
-
 
   return (
     <div style={open ? goLeft : goRight} className='sidebar-container'>

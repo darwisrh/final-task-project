@@ -24,9 +24,6 @@ import ContentCreator from "./Pages/ContentCreator"
 import GuestHome from "./Pages/GuestHome"
 import GuestDetail from "./Pages/GuestDetail"
 
-// Latihan
-import Latihan from "./latihan/LearnUseContext"
-
 
 if (localStorage.token) {
   setAuthToken(localStorage.token)
@@ -57,7 +54,6 @@ function App() {
     } else if (state.user.token) {
       navigate('/home')
     }
-
   }, [state])
   
   const checkUser = async () => {
@@ -90,7 +86,6 @@ function App() {
 
   return (
         <Routes>
-          <Route path="/" element={<Latihan />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/guest-home/" element={
@@ -102,22 +97,22 @@ function App() {
 
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={
-              <Home setOpen={setOpen} open={open} subs={subscription}/>
+              <Home setOpen={setOpen} open={open} subs={subscription} refetch={subsRefetch}/>
             }/>
             <Route path="/detail-video/:id" element={
-              <DetailPage setOpen={setOpen} open={open}/>
+              <DetailPage setOpen={setOpen} open={open} subs={subscription} refetch={subsRefetch}/>
             }/>
             <Route path="/edit-channel" element={
-              <EditChannel setOpen={setOpen} open={open}/>
+              <EditChannel setOpen={setOpen} open={open} subs={subscription} refetch={subsRefetch}/>
             }/>
             <Route path="/addvideo" element={
-              <AddVideo setOpen={setOpen} open={open}/>
+              <AddVideo setOpen={setOpen} open={open} subs={subscription} refetch={subsRefetch}/>
             }/>
             <Route path="/my-channel" element={
-              <MyChannel setOpen={setOpen} open={open}/>
+              <MyChannel setOpen={setOpen} open={open} subs={subscription} refetch={subsRefetch}/>
             } />
             <Route path="/my-channel/description" element={
-              <Description setOpen={setOpen} open={open}/>
+              <Description setOpen={setOpen} open={open} subs={subscription} refetch={subsRefetch}/>
             } />
             <Route path="/content-creator/:id" element={
               <ContentCreator setOpen={setOpen} open={open} subs={subscription} refetch={subsRefetch}/>

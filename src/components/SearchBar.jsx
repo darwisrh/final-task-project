@@ -11,7 +11,6 @@ import '../css/SideBar.css'
 // Icons
 import Menu from '../Images/SideBar/WhiteMenu.png'
 import Video from '../Images/Icons/video.png'
-import Search from '../Images/Icons/Search.png'
 import { useContext } from 'react'
 import { UserContext } from '../context/UserContext'
 
