@@ -40,7 +40,7 @@ const SideBar = ({ open, setOpen, subs }) => {
           <img src={Menu} alt="menu" onClick={setOpen}/>
         </div>
         <div className='body-section'>
-          <Link to={state.isLogin ? '/home' : '/guest-home'} className="router">
+          <Link to={state.isLogin ? '/home' : '/'} className="router">
             <img src={HomeW} alt="icon"/>
             <div className="name">Home</div>
           </Link>

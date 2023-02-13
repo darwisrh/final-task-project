@@ -91,7 +91,7 @@ function App() {
         <Routes>
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/guest-home/" element={
+          <Route path="/" element={
             <GuestHome setOpen={setOpen} open={open} setSearch={setSearch} search={search}/>
           }/>
           <Route path="/guest-detail/:id" element={
