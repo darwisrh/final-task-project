@@ -53,7 +53,7 @@ function App() {
     }
 
     if (state.isLogin === false) {
-      navigate('/guest-home')
+      navigate('/')
     } else if (state.user.token) {
       navigate('/home')
     }
